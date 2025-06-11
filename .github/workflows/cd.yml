@@ -10,7 +10,9 @@ on:
 
 jobs:
   deploy-production:
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
 
     env:
@@ -22,8 +24,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        # Jika pemicunya manual, gunakan branch main. Jika dari CI, gunakan commit SHA.
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.event.workflow_run.head_sha || 'main' }}
 
       - name: Authenticate to Google Cloud
         uses: 'google-github-actions/auth@v2'
@@ -39,7 +42,9 @@ jobs:
       - name: Build and Push Docker Image
         id: build-image
         run: |
-          IMAGE_URL=${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_REPOSITORY_NAME }}/${{ env.GCP_SERVICE_NAME }}:${{ github.event.workflow_run.head_sha }}
+          # Menggunakan tag unik (commit sha) untuk versioning yang benar
+          IMAGE_URL=${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_REPOSITORY_NAME }}/${{ env.GCP_SERVICE_NAME }}:${{ github.sha }}
+          
           echo "IMAGE_URL=$IMAGE_URL" >> $GITHUB_OUTPUT
 
           docker build \
@@ -61,8 +66,9 @@ jobs:
           region: ${{ env.GCP_REGION }}
           image: ${{ steps.build-image.outputs.IMAGE_URL }}
           flags: '--platform managed --allow-unauthenticated'
-          # **JANGAN tambahkan PORT di env_vars**
+          # PERBAIKAN FINAL: Menambahkan PORT dan semua variabel runtime
           env_vars: |
+            PORT=3000
             NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}
             NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}
             NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}
