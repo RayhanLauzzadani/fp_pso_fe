@@ -33,11 +33,23 @@ git clone https://github.com/RayhanLauzzadani/fp_pso_fe.git
 cd fp_pso_fe
 2. Install Dependencies
 npm install
-or if errors occur:
+# or if errors occur:
 npm install --legacy-peer-deps
 3. To Start the server
 Make sure Docker Desktop is running:
 npm run dev
+
+🧪 Testing
+Follow these steps to run Jest tests with coverage:
+
+1. Install dependencies
+npm ci
+# or if you run into peer dependency issues:
+npm install --legacy-peer-deps
+2. Run tests with coverage
+npm test -- --coverage
+
+The coverage report in the `coverage/` folder is used by SonarCloud during analysis.
 
 🛠️ CI/CD & Deployment
 - CI/CD is handled via GitHub Actions
