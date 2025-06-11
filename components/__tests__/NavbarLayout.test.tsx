@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import NavbarLayout from "../NavbarLayout";
 import "@testing-library/jest-dom";
+import fetchMock from "jest-fetch-mock"; // Perbaiki jadi import
 
 // Mock fetch → fix Firebase error
-global.fetch = require("jest-fetch-mock");
+fetchMock.enableMocks();
 
 // Mock next/navigation
 jest.mock("next/navigation", () => ({
@@ -11,7 +12,9 @@ jest.mock("next/navigation", () => ({
 }));
 
 // Mock Navbar → karena kita cuma mau test Layout nya
-jest.mock("../Navbar", () => () => <div data-testid="mock-navbar">Mock Navbar</div>);
+const MockNavbar = () => <div data-testid="mock-navbar">Mock Navbar</div>;
+MockNavbar.displayName = "MockNavbar";
+jest.mock("../Navbar", () => MockNavbar);
 
 describe("NavbarLayout", () => {
   it("renders Navbar and children when not on login/register/landing", () => {
