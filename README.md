@@ -33,7 +33,7 @@ git clone https://github.com/RayhanLauzzadani/fp_pso_fe.git
 cd fp_pso_fe
 2. Install Dependencies
 npm install
-# or if errors occur:
+or if errors occur:
 npm install --legacy-peer-deps
 3. To Start the server
 Make sure Docker Desktop is running:
