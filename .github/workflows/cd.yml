@@ -1,14 +1,10 @@
 name: CD - Deploy to GCP Cloud Run
 
 on:
-  push:
-    branches:
-      - main
-# on:
-#   workflow_run:
-#     workflows: ["CI - Lint, Test, Build"] 
-#     types:
-#       - completed
+  workflow_run:
+    workflows: ["CI - Lint, Test, Build"] 
+    types:
+      - completed
 
 jobs:
   deploy:
