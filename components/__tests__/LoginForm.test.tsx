@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import LoginForm from '../LoginForm'
 import '@testing-library/jest-dom'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 // Mock Firebase
 jest.mock('@/lib/firebaseConfig', () => ({
@@ -25,9 +26,8 @@ describe('LoginForm', () => {
   it('shows alert when login fails', async () => {
     window.alert = jest.fn()
 
-    // Mock Firebase to throw error
-    const { signInWithEmailAndPassword } = require('firebase/auth')
-    signInWithEmailAndPassword.mockRejectedValue(new Error('Invalid credentials'))
+      // Mock Firebase to throw error
+      (signInWithEmailAndPassword as jest.Mock).mockRejectedValue(new Error('Invalid credentials'))
 
     render(<LoginForm />)
 
