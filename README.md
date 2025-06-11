@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+💱 DooIT – Money Changer Calculator App
+DooIT is a modern web-based application designed to help users manage and track personal financial transactions — including income, expenses, and multi-currency balance conversion. Built with Next.js and integrated with Firebase, the app offers real-time exchange rate calculation, transaction logging, and DevOps automation with GitHub Actions and Google Cloud Run.
+Developed by:
 
-## Getting Started
+- Rayhan Lazzuardani		| github.com/RayhanLauzzadani 
+- Rayhan Farelliansyah		| github.com/rfarelll 
+- Athalla Rayya Genaro		| github.com/rayyagenaro 
+- M. Fazle M. S. 		| github.com/mfazms 
 
-First, run the development server:
+🚀 Features
+- Real-time currency exchange calculator
+- Multi-currency balance management
+- Transaction input & history tracking
+- Secure authentication (via Firebase Auth)
+- CI/CD automation (GitHub Actions)
+- Cloud deployment with Docker & Google Cloud Run
+-  Monitoring via Google Cloud Monitoring
 
-```bash
+📁 Project Repository
+Frontend + Backend : https://github.com/RayhanLauzzadani/fp_pso_fe
+Kanban Board: GitHub Project Board
+UI/UX Figma : 
+
+🧰 Prerequisites
+Before you begin, make sure you have the following tools installed:
+Docker
+Node.js (Recommended: LTS version)
+
+⚙️ Getting Started
+Follow these steps to run the project locally:
+1. Clone the Repositoryt
+git clone https://github.com/RayhanLauzzadani/fp_pso_fe.git
+cd fp_pso_fe
+2. Install Dependencies
+npm install
+or if errors occur:
+npm install --legacy-peer-deps
+3. To Start the server
+Make sure Docker Desktop is running:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🛠️ CI/CD & Deployment
+- CI/CD is handled via GitHub Actions
+- Auto lint, test (Jest), and build on every push/PR.
+- Auto deploy to Google Cloud Run on merge to main.
+- Monitoring is active via Google Cloud Monitoring.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+📚 Additional Documentation
+For deployment guides, environment config, and architecture diagrams, refer to:
+ 👉 tekan.id/DooItDocumentation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🤝 Contributing
+Please follow GitHub best practices:
+Use Pull Requests for code changes
+Ensure all CI jobs pass before merging
+Coordinate via Kanban Board for tasks
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+📄 License
+This project is licensed under the MIT License — see the LICENSE file for details.
