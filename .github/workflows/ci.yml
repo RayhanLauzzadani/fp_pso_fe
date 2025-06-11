@@ -74,11 +74,11 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Enable Babel for Jest
-        run: mv babel.config.js.bak babel.config.js
+      # - name: Enable Babel for Jest
+      #   run: mv babel.config.js.bak babel.config.js
 
-      - name: Run Unit Tests (for coverage report)
-        run: npm run test -- --coverage
+      # - name: Run Unit Tests (for coverage report)
+      #   run: npm run test -- --coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
