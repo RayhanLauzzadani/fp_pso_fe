@@ -1,6 +1,5 @@
 import { render, screen, act } from "@testing-library/react";
 import Homepage from "@/components/Homepage";
-import userEvent from "@testing-library/user-event";
 import { onAuthStateChanged } from "firebase/auth";
 
 // Mock next/navigation
@@ -92,5 +91,6 @@ describe("Homepage", () => {
     expect(screen.getByTestId("BalanceCard")).toBeInTheDocument();
     expect(screen.getByTestId("CalculatorCard")).toBeInTheDocument();
     expect(screen.getByTestId("AddBalanceCard")).toBeInTheDocument();
-    expect(screen.getByTestId("TransactionHistoryCard")).toBeInTheDocument
-}) })
+    expect(screen.getByTestId("TransactionHistoryCard")).toBeInTheDocument();
+  });
+});
