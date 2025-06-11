@@ -44,6 +44,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.0.0",
+    "jest-fetch-mock": "^3.0.3",
     "prettier": "3.5.3",
     "tailwindcss": "^4",
     "ts-jest": "^29.3.4",
