@@ -13,7 +13,7 @@ jobs:
     env:
       PROJECT_ID: unified-runner-461212-q5
       REGION: asia-southeast2
-      SERVICE: dooit-app
+      SERVICE: dooit-apps
       REPOSITORY: fp-pso
 
     steps:
