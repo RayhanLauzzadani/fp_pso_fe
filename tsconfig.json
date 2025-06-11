@@ -16,9 +16,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-<<<<<<< HEAD
-    "types": ["react", "react-dom", "jest"],
-=======
     "types": [
       "react",
       "node"
@@ -29,7 +26,6 @@
         "./*"
       ]
     },
->>>>>>> 942201c05a2cbdcf1c60f8168df9ca6319b08363
     "incremental": true,
     "plugins": [
       {

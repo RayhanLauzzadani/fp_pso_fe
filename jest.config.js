@@ -1,20 +1,4 @@
 module.exports = {
-<<<<<<< HEAD
-  preset: 'ts-jest/presets/js-with-ts',
-  testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  transform: {
-    '^.+\\.tsx?$': ['ts-jest', {
-      tsconfig: '<rootDir>/tsconfig.jest.json',
-    }],
-  },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    '^@/(.*)$': '<rootDir>/$1',
-  },
-}
-=======
   preset: "ts-jest", // atau bisa dihapus kalau sudah pakai babel-jest
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
@@ -31,4 +15,3 @@ module.exports = {
     "node_modules/(?!(@testing-library|@fortawesome)/)"
   ],
 };
->>>>>>> 942201c05a2cbdcf1c60f8168df9ca6319b08363
