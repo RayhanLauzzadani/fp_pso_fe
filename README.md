@@ -1,19 +1,20 @@
 💱 DooIT – Money Changer Calculator App
 DooIT is a modern web-based application designed to help users manage and track personal financial transactions — including income, expenses, and multi-currency balance conversion. Built with Next.js and integrated with Firebase, the app offers real-time exchange rate calculation, transaction logging, and DevOps automation with GitHub Actions and Google Cloud Run.
 Developed by:
-Rayhan Lazzuardani		| github.com/RayhanLauzzadani 
-Rayhan Farelliansyah		| github.com/rfarelll 
-Athalla Rayya Genaro		| github.com/rayyagenaro 
-M. Fazle M. S. 		| github.com/mfazms 
+
+- Rayhan Lazzuardani		| github.com/RayhanLauzzadani 
+- Rayhan Farelliansyah		| github.com/rfarelll 
+- Athalla Rayya Genaro		| github.com/rayyagenaro 
+- M. Fazle M. S. 		| github.com/mfazms 
 
 🚀 Features
-Real-time currency exchange calculator
-Multi-currency balance management
-Transaction input & history tracking
-Secure authentication (via Firebase Auth)
-CI/CD automation (GitHub Actions)
-Cloud deployment with Docker & Google Cloud Run
-Monitoring via Google Cloud Monitoring
+- Real-time currency exchange calculator
+- Multi-currency balance management
+- Transaction input & history tracking
+- Secure authentication (via Firebase Auth)
+- CI/CD automation (GitHub Actions)
+- Cloud deployment with Docker & Google Cloud Run
+-  Monitoring via Google Cloud Monitoring
 
 📁 Project Repository
 Frontend + Backend : https://github.com/RayhanLauzzadani/fp_pso_fe
@@ -39,10 +40,10 @@ Make sure Docker Desktop is running:
 npm run dev
 
 🛠️ CI/CD & Deployment
-CI/CD is handled via GitHub Actions
-Auto lint, test (Jest), and build on every push/PR.
-Auto deploy to Google Cloud Run on merge to main.
-Monitoring is active via Google Cloud Monitoring.
+- CI/CD is handled via GitHub Actions
+- Auto lint, test (Jest), and build on every push/PR.
+- Auto deploy to Google Cloud Run on merge to main.
+- Monitoring is active via Google Cloud Monitoring.
 
 📚 Additional Documentation
 For deployment guides, environment config, and architecture diagrams, refer to:
