@@ -12,9 +12,11 @@ jest.mock("next/navigation", () => ({
 }));
 
 // Mock Navbar → karena kita cuma mau test Layout nya
-const MockNavbar = () => <div data-testid="mock-navbar">Mock Navbar</div>;
-MockNavbar.displayName = "MockNavbar";
-jest.mock("../Navbar", () => MockNavbar);
+jest.mock("../Navbar", () => {
+  const MockNavbar = () => <div data-testid="mock-navbar">Mock Navbar</div>;
+  MockNavbar.displayName = "MockNavbar";
+  return MockNavbar;
+});
 
 describe("NavbarLayout", () => {
   it("renders Navbar and children when not on login/register/landing", () => {

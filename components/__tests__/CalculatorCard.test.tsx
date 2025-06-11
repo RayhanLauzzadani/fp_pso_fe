@@ -1,5 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { CalculatorCard } from "@/components/CalculatorCard";
+import { act } from "@testing-library/react";
+
 
 // Karena ada fetch API, supaya ga error kita bisa mock global.fetch
 beforeAll(() => {
@@ -19,14 +21,15 @@ beforeAll(() => {
 });
 
 describe("CalculatorCard", () => {
-  it("should render Calculator title", () => {
-    render(<CalculatorCard />);
+  it("should render Calculator title", async () => {
+    await act(async () => {
+      render(<CalculatorCard />);
+    });
     expect(screen.getByText(/Calculator/i)).toBeInTheDocument();
   });
 
   it("should have initial fromAmount of 1000", async () => {
     render(<CalculatorCard />);
-    // Tunggu rates selesai di-load
     await waitFor(() => expect(screen.getByText(/Kurs realtime/i)).toBeInTheDocument());
 
     const fromInput = screen.getAllByPlaceholderText(/Amount/i)[0] as HTMLInputElement;
