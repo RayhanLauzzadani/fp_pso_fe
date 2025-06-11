@@ -17,7 +17,7 @@ jobs:
       GCP_PROJECT_ID: fp-pso-462609
       GCP_REGION: asia-southeast2
       GCP_SERVICE_NAME: dooit-app
-      GCP_REPOSITORY_NAME: fp-pso-fe
+      GCP_REPOSITORY_NAME: fp-pso
 
     steps:
       - name: Checkout repository
