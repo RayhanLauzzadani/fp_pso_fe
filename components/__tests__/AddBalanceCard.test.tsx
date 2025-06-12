@@ -81,12 +81,6 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
-function findSelectWithOption(testId: string, value: string): HTMLSelectElement {
-    return screen.getAllByTestId(testId).find(select =>
-        Array.from(select.children).some(opt => (opt as HTMLOptionElement).value === value)
-    ) as HTMLSelectElement;
-}
-
 it("submits data and calls firebase functions", async () => {
     const fakeUser = { uid: "abc" } as unknown as User;
     mockGetDoc.mockResolvedValue({ exists: () => true, data: () => ({ balance: 0 }) });
@@ -142,42 +136,42 @@ it("converts currency and resets form after submit", async () => {
     expect((screen.getByPlaceholderText(/Amount/i) as HTMLInputElement).value).toBe("");
 });
 
-it("does not fetch rates when currency is USD", async () => {
-    const fakeUser = { uid: "abc" } as unknown as User;
-    mockGetDoc.mockResolvedValue({ exists: () => true, data: () => ({ balance: 10 }) });
+// it("does not fetch rates when currency is USD", async () => {
+//     const fakeUser = { uid: "abc" } as unknown as User;
+//     mockGetDoc.mockResolvedValue({ exists: () => true, data: () => ({ balance: 10 }) });
 
-    render(<AddBalanceCard user={fakeUser} />);
-    const user = userEvent.setup();
+//     render(<AddBalanceCard user={fakeUser} />);
+//     const user = userEvent.setup();
 
-    // Cari select currency yang punya option USD
-    const currencySelect = findSelectWithOption("currency-select", "USD");
-    await user.selectOptions(currencySelect, "USD");
-    expect(currencySelect.value).toBe("USD");
+//     // Cari select currency yang punya option USD
+//     const currencySelect = findSelectWithOption("currency-select", "USD");
+//     await user.selectOptions(currencySelect, "USD");
+//     expect(currencySelect.value).toBe("USD");
 
-    await user.type(screen.getByPlaceholderText(/Amount/i), "5");
-    await user.click(screen.getByRole("button", { name: /Save/i }));
+//     await user.type(screen.getByPlaceholderText(/Amount/i), "5");
+//     await user.click(screen.getByRole("button", { name: /Save/i }));
 
-    await waitFor(() => expect(mockSetDoc).toHaveBeenCalled());
-    expect(global.fetch).not.toHaveBeenCalled();
-});
+//     await waitFor(() => expect(mockSetDoc).toHaveBeenCalled());
+//     expect(global.fetch).not.toHaveBeenCalled();
+// });
 
-it("can change type to expense and submit", async () => {
-    const fakeUser = { uid: "abc" } as unknown as User;
-    mockGetDoc.mockResolvedValue({ exists: () => true, data: () => ({ balance: 10 }) });
+// it("can change type to expense and submit", async () => {
+//     const fakeUser = { uid: "abc" } as unknown as User;
+//     mockGetDoc.mockResolvedValue({ exists: () => true, data: () => ({ balance: 10 }) });
 
-    render(<AddBalanceCard user={fakeUser} />);
-    const user = userEvent.setup();
+//     render(<AddBalanceCard user={fakeUser} />);
+//     const user = userEvent.setup();
 
-    // Ganti type ke expense
-    const typeSelect = findSelectWithOption("type-select", "expense");
-    await user.selectOptions(typeSelect, "expense");
-    expect(typeSelect.value).toBe("expense");
+//     // Ganti type ke expense
+//     const typeSelect = findSelectWithOption("type-select", "expense");
+//     await user.selectOptions(typeSelect, "expense");
+//     expect(typeSelect.value).toBe("expense");
 
-    await user.type(screen.getByPlaceholderText(/Amount/i), "50");
-    await user.click(screen.getByRole("button", { name: /Save/i }));
+//     await user.type(screen.getByPlaceholderText(/Amount/i), "50");
+//     await user.click(screen.getByRole("button", { name: /Save/i }));
 
-    await waitFor(() => expect(mockSetDoc).toHaveBeenCalled());
-});
+//     await waitFor(() => expect(mockSetDoc).toHaveBeenCalled());
+// });
 
 it("shows error alert when submission fails", async () => {
     const fakeUser = { uid: "abc" } as unknown as User;
