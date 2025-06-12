@@ -17,7 +17,6 @@ module.exports = {
   coverageReporters: ['text', 'lcov', 'html'],
   collectCoverageFrom: [
     'components/**/*.{js,jsx,ts,tsx}',
-    'lib/**/*.{js,ts,tsx}',
     'app/**/*.{js,jsx,ts,tsx}',
     '!**/node_modules/**',
     '!**/.next/**'

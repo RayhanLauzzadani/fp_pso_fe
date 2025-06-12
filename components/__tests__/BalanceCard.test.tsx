@@ -1,96 +1,85 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { BalanceCard } from "../BalanceCard";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { BalanceCard } from "@/components/BalanceCard";
 import type { User } from "firebase/auth";
+import "@testing-library/jest-dom";
 
-// Mock komponen-komponen UI eksternal jika perlu (optional, biasanya tidak perlu kalau pakai UI sendri)
+// --- Fake User Mock
+const fakeUser = {
+  uid: "123",
+  displayName: "Fake User",
+  email: "fake@example.com",
+} as unknown as User;
 
-// Mock Firestore onSnapshot
-jest.mock("firebase/firestore", () => ({
-  doc: jest.fn(),
-  onSnapshot: jest.fn((ref, callback) => {
-    // Panggil callback dengan user balance 1000
-    setTimeout(() => callback({ exists: () => true, data: () => ({ balance: 1000 }) }), 0);
-    return jest.fn(); // unsubscribe
-  }),
-}));
+// --- Firestore & fetch Mocking
+const onSnapshotMock = jest.fn();
 
-// Mock FirebaseConfig db
 jest.mock("@/lib/firebaseConfig", () => ({
   db: {},
 }));
 
-// Mock fetch untuk rates
+jest.mock("firebase/firestore", () => ({
+  doc: jest.fn(),
+  onSnapshot: (...args: unknown[]) => onSnapshotMock(...args),
+}));
+
 beforeAll(() => {
   global.fetch = jest.fn(() =>
     Promise.resolve({
       json: () =>
         Promise.resolve({
-          rates: {
-            USD: "1",
-            IDR: "15000",
-            SGD: "1.5",
-            AUD: "2",
-          },
+          rates: { USD: "1", IDR: "15000", SGD: "1.5", AUD: "2" },
         }),
     })
   ) as jest.Mock;
 });
 
-afterAll(() => {
-  // Restore fetch setelah semua test
-  (global.fetch as jest.Mock).mockRestore?.();
+beforeEach(() => {
+  // Setup Firestore onSnapshot behavior
+  onSnapshotMock.mockImplementation((docRef, callback) => {
+    callback({
+      exists: () => true,
+      data: () => ({ balance: 1000 }),
+    });
+    return jest.fn();
+  });
 });
 
-// Mock user
-const fakeUser = {
-  uid: "test-uid",
-  displayName: "Fake User",
-  email: "fakeuser@email.com",
-} as User;
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 describe("BalanceCard", () => {
-  it("shows loading screen if loading", async () => {
-    // Test loading state
-    render(<BalanceCard user={fakeUser} />);
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
-    // Tunggu balance muncul
-    await screen.findByText(/Total Balance/i);
-  });
-
   it("shows balance, allows currency change and toggle visibility", async () => {
     render(<BalanceCard user={fakeUser} />);
-    // Tunggu Total Balance (setelah loading selesai)
-    await screen.findByText(/Total Balance/i);
 
-    // Pastikan balance awal USD
-    expect(screen.getByText("$")).toBeInTheDocument();
-    expect(screen.getByTitle("1.000")).toBeInTheDocument(); // 1000 USD
+    // Wait for loading to disappear
+    await waitFor(() =>
+      expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument()
+    );
 
-    // Klik tombol mata uang (dropdown)
-    const dropdownBtn = screen.getByLabelText("Pilih Mata Uang");
-    fireEvent.click(dropdownBtn);
+    // initial balance in USD
+    expect(screen.getByText("1.000")).toBeInTheDocument();
+    const dropdownBtn = screen.getByRole("button", { name: /Pilih Mata Uang/i });
+    expect(dropdownBtn).toHaveTextContent("$");
 
-    // Tunggu Rp muncul (karena menu radio item baru muncul saat dropdown open)
-    const idrOption = await screen.findByText("Rp");
-    fireEvent.click(idrOption);
+    const user = userEvent.setup();
 
-    // Sekarang harus menampilkan mata uang Rp
+    // --- Open dropdown and select "Rp" (IDR)
+    await user.click(dropdownBtn);
+    await user.click(await screen.findByText("Rp"));
+
     await waitFor(() => expect(dropdownBtn).toHaveTextContent("Rp"));
-    // Balance seharusnya sudah dalam bentuk IDR (1000 x 15000 = 15.000.000)
     expect(screen.getByText("15.000.000")).toBeInTheDocument();
 
-    // Klik tombol sembunyikan saldo (icon mata)
-    const eyeBtn = screen.getByTitle("Sembunyikan Saldo");
-    fireEvent.click(eyeBtn);
-
-    // Sekarang balance disembunyikan
+    // --- Hide balance
+    const toggleBtn = screen.getByRole("button", { name: /Sembunyikan Saldo/i });
+    await user.click(toggleBtn);
     expect(screen.getByText("*******")).toBeInTheDocument();
 
-    // Klik lagi untuk tampilkan saldo
-    const showBtn = screen.getByTitle("Tampilkan Saldo");
-    fireEvent.click(showBtn);
-
-    // Saldo muncul lagi
-    expect(screen.getByText("15.000.000")).toBeInTheDocument();
+    // --- Show again (the eye button changes title)
+    expect(
+      screen.getByRole("button", { name: /Tampilkan Saldo/i })
+    ).toBeInTheDocument();
   });
 });

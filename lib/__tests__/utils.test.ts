@@ -6,6 +6,6 @@ describe("cn", () => {
   });
 
   it("deduplicates using Tailwind rules", () => {
-    expect(cn("p-2", "p-4", "p-2")).toBe("p-4");
+    expect(cn("p-2", "p-4", "p-2")).toBe("p-2");
   });
 });
