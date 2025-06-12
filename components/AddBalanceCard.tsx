@@ -232,8 +232,8 @@ export function AddBalanceCard({ user, onTransaction }: AddBalanceCardProps) {
             </div>
             <div className="flex-1 flex flex-col">
               <Label className="text-blue-800 text-sm font-semibold mb-1 block">Type</Label>
-              <Select value={type} onValueChange={setType} data-testid="type-select">
-                <SelectTrigger id="type" className="border border-[#6FACDD] rounded-lg ...">
+              <Select value={type} onValueChange={setType}>
+                <SelectTrigger id="type" className="border border-[#6FACDD] rounded-lg focus-visible:ring-0 focus-visible:ring-offset-0 bg-white font-medium text-lg text-gray-700 w-full p-[26px] shadow-lg">
                   <SelectValue placeholder="Income" />
                 </SelectTrigger>
                 <SelectContent>
