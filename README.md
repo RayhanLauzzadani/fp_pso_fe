@@ -2,9 +2,9 @@
 DooIT is a modern web-based application designed to help users manage and track personal financial transactions — including income, expenses, and multi-currency balance conversion. Built with Next.js and integrated with Firebase, the app offers real-time exchange rate calculation, transaction logging, and DevOps automation with GitHub Actions and Google Cloud Run.
 Developed by:
 
-- Rayhan Lazzuardani		| github.com/RayhanLauzzadani 
-- Rayhan Farelliansyah		| github.com/rfarelll 
-- Athalla Rayya Genaro		| github.com/rayyagenaro 
+- Rayhan Lauzzadani		| github.com/RayhanLauzzadani 
+- Rayhan Fareliansyah		| github.com/rfarelll 
+- Athaalla Rayya Genaro I.	| github.com/rayyagenaro 
 - M. Fazle M. S. 		| github.com/mfazms 
 
 🚀 Features
@@ -28,7 +28,7 @@ Node.js (Recommended: LTS version)
 
 ⚙️ Getting Started
 Follow these steps to run the project locally:
-1. Clone the Repositoryt
+1. Clone the Repository
 git clone https://github.com/RayhanLauzzadani/fp_pso_fe.git
 cd fp_pso_fe
 2. Install Dependencies
