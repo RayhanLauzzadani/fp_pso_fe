@@ -27,8 +27,14 @@ jobs:
       - name: Enable Babel for Jest
         run: mv babel.config.js.bak babel.config.js
 
-      - name: Run Unit Tests
+      - name: Run Unit Tests with Coverage
         run: npm run test -- --coverage
+
+      - name: List coverage directory
+        run: ls -l coverage
+
+      - name: Show lcov.info head
+        run: head -n 20 coverage/lcov.info
 
       - name: Disable Babel for Next.js build
         run: mv babel.config.js babel.config.js.bak
@@ -52,12 +58,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
-          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
-          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
-          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-          NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          # ...other env vars...
 
   sonarcloud:
     runs-on: ubuntu-latest
@@ -81,8 +82,11 @@ jobs:
         run: npm run test -- --coverage
 
       - name: List coverage directory
-        run: ls -al coverage
-        
+        run: ls -l coverage
+
+      - name: Show lcov.info head
+        run: head -n 20 coverage/lcov.info
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
@@ -92,5 +96,3 @@ jobs:
           args: >
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.qualitygate.wait=true
-
-
