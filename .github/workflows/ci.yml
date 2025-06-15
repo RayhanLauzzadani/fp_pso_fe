@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # <--- PENTING: Tambahkan ini!
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -45,6 +47,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # <--- PENTING JUGA KALO MAU BUILD PAKAI SONAR
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -58,7 +62,12 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-          # ...other env vars...
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
 
   sonarcloud:
     runs-on: ubuntu-latest
@@ -66,6 +75,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # <--- INI PALING KRUSIAL BUAT SONAR
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -86,6 +97,10 @@ jobs:
 
       - name: Show lcov.info head
         run: head -n 20 coverage/lcov.info
+
+      # Optional: Jaga-jaga unshallow (biasanya nggak perlu, tapi bisa ditambah)
+      # - name: Fetch all history for SonarCloud analysis
+      #   run: git fetch --prune --unshallow || true
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5
