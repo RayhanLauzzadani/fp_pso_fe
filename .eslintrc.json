@@ -5,13 +5,5 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-key": "warn",
     "jsx-a11y/alt-text": "warn"
-  },
-  "overrides": [
-    {
-      "files": ["*.cjs"],
-      "rules": {
-        "@typescript-eslint/no-require-imports": "off"
-      }
-    }
-  ]
+  }
 }
