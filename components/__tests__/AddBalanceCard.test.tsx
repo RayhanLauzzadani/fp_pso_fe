@@ -199,7 +199,7 @@ it("converts currency and resets form after submit", async () => {
     expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining("symbols=USD,IDR")
     );
-    const setDocData = (mockSetDoc.mock.calls[0] as unknown[])[1] as { balance: number };
+    const setDocData = mockSetDoc.mock.calls[0][1] as { balance: number };
     expect(setDocData.balance).toBeCloseTo(101);
     expect((screen.getByPlaceholderText(/Amount/i) as HTMLInputElement).value).toBe("");
 });
@@ -231,8 +231,17 @@ it("memproses input lengkap dan memanggil callback sesuai", async () => {
     await user.type(screen.getByPlaceholderText(/Amount/i), "200");
     await user.type(screen.getByPlaceholderText(/Write here/i), "Beli buku");
 
-    // --- Pilih currency USD
-    const currencySelect = screen.getByTestId("currency-select") as HTMLSelectElement;
+    // Type guard untuk memastikan element memang HTMLSelectElement
+    function assertIsSelectElement(el: HTMLElement): asserts el is HTMLSelectElement {
+        if (!(el instanceof HTMLSelectElement)) {
+            throw new Error("Element is not a select element");
+        }
+    }
+
+    // Dalam test case:
+    const currencySelect = screen.getByTestId("currency-select");
+    assertIsSelectElement(currencySelect); // cek tipe runtime
+
     await user.selectOptions(currencySelect, "USD");
     expect(currencySelect.value).toBe("USD");
 
@@ -243,7 +252,15 @@ it("memproses input lengkap dan memanggil callback sesuai", async () => {
     expect(typeSelect.value).toBe("expense");
 
     // --- Set tanggal (PAKAI fireEvent.change!)
-    const dateInput = await screen.findByTestId("calendar-input") as HTMLInputElement;
+    function assertIsInputElement(el: HTMLElement): asserts el is HTMLInputElement {
+        if (!(el instanceof HTMLInputElement)) {
+            throw new Error("Element is not an input element");
+        }
+    }
+
+    const dateInput = await screen.findByTestId("calendar-input");
+    assertIsInputElement(dateInput);
+
     fireEvent.change(dateInput, { target: { value: "2025-06-15" } });
     expect(dateInput.value).toBe("2025-06-15");
 
