@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # <--- PENTING: Tambahkan ini!
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -47,8 +45,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # <--- PENTING JUGA KALO MAU BUILD PAKAI SONAR
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -75,8 +71,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # <--- INI PALING KRUSIAL BUAT SONAR
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -95,19 +89,9 @@ jobs:
       - name: List coverage directory
         run: ls -l coverage
 
-      - name: Show lcov.info head
-        run: head -n 20 coverage/lcov.info
-
-      # Optional: Jaga-jaga unshallow (biasanya nggak perlu, tapi bisa ditambah)
-      # - name: Fetch all history for SonarCloud analysis
-      #   run: git fetch --prune --unshallow || true
-
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
-        with:
-          args: >
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.qualitygate.wait=true
+
