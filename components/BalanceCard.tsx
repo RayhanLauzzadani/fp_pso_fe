@@ -110,7 +110,7 @@ export function BalanceCard({ user }: { user: User | null }) {
           Hello, {user?.displayName || user?.email}!
         </div>
         <div className="text-4xl text-blue-900 font-bold mb-2">
-          Total Saldo
+          Total Balance
         </div>
         <div className="flex items-center mt-[-10px] w-full gap-2">
           {/* Currency Symbol Dropdown */}
@@ -171,3 +171,4 @@ export function BalanceCard({ user }: { user: User | null }) {
     </div>
   );
 }
+
