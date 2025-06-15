@@ -201,7 +201,8 @@ it("converts currency and resets form after submit", async () => {
     );
     const setDocData = (mockSetDoc.mock.calls[0] as unknown[])[1] as { balance: number };
     expect(setDocData.balance).toBeCloseTo(101);
-    expect((screen.getByPlaceholderText(/Amount/i) as HTMLInputElement).value).toBe("");
+    const amountInput = screen.getByPlaceholderText(/Amount/i) as HTMLInputElement;
+    expect(amountInput.value).toBe("");
 });
 
 it("shows error alert when submission fails", async () => {
@@ -232,7 +233,11 @@ it("memproses input lengkap dan memanggil callback sesuai", async () => {
     await user.type(screen.getByPlaceholderText(/Write here/i), "Beli buku");
 
     // --- Pilih currency USD
-    const currencySelect = screen.getByTestId("currency-select") as HTMLSelectElement;
+    const currencySelect = screen.getByTestId("currency-select");
+    if (!(currencySelect instanceof HTMLSelectElement)) {
+        throw new Error("Not a select element");
+    }
+    expect(currencySelect.value).toBe("USD");
     await user.selectOptions(currencySelect, "USD");
     expect(currencySelect.value).toBe("USD");
 
