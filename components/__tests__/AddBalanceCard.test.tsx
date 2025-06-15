@@ -4,6 +4,19 @@ import { AddBalanceCard } from "../AddBalanceCard";
 import type { User } from "firebase/auth";
 import React from "react";
 
+// --- Helper type guards (di luar test supaya reusable) ---
+function assertIsInputElement(el: HTMLElement): asserts el is HTMLInputElement {
+    if (!(el instanceof HTMLInputElement)) {
+        throw new Error("Element is not an input element");
+    }
+}
+
+function assertIsSelectElement(el: HTMLElement): asserts el is HTMLSelectElement {
+    if (!(el instanceof HTMLSelectElement)) {
+        throw new Error("Element is not a select element");
+    }
+}
+
 // Util untuk flatten opsi select (abaikan <img> dsb)
 type SelectItemProps = { value: string; children: React.ReactNode };
 type SelectItemOption = React.ReactElement<SelectItemProps>;
@@ -156,8 +169,8 @@ it("submits data and calls firebase functions", async () => {
     const onTransaction = jest.fn();
 
     render(<AddBalanceCard user={fakeUser} onTransaction={onTransaction} />);
-
     const user = userEvent.setup();
+
     await user.type(screen.getByPlaceholderText(/Amount/i), "100");
     await user.type(screen.getByPlaceholderText(/Write here/i), "Test");
     await user.click(screen.getByRole("button", { name: /Save/i }));
@@ -173,8 +186,8 @@ it("alerts when no user", async () => {
     window.alert = jest.fn();
 
     render(<AddBalanceCard user={null} />);
-
     const user = userEvent.setup();
+
     await user.type(screen.getByPlaceholderText(/Amount/i), "50");
     await user.click(screen.getByRole("button", { name: /Save/i }));
 
@@ -188,20 +201,22 @@ it("converts currency and resets form after submit", async () => {
     mockGetDoc.mockResolvedValue({ exists: () => true, data: () => ({ balance: 100 }) });
 
     render(<AddBalanceCard user={fakeUser} />);
-
     const user = userEvent.setup();
+
     await user.type(screen.getByPlaceholderText(/Amount/i), "15000");
     await user.type(screen.getByPlaceholderText(/Write here/i), "Test");
     await user.click(screen.getByRole("button", { name: /Save/i }));
 
     await waitFor(() => expect(mockSetDoc).toHaveBeenCalled());
 
-    expect(global.fetch).toHaveBeenCalledWith(
-        expect.stringContaining("symbols=USD,IDR")
-    );
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("symbols=USD,IDR"));
+
+    const amountInput = screen.getByPlaceholderText(/Amount/i);
+    assertIsInputElement(amountInput); // Assert tipe input di runtime
+
     const setDocData = mockSetDoc.mock.calls[0][1] as { balance: number };
     expect(setDocData.balance).toBeCloseTo(101);
-    expect((screen.getByPlaceholderText(/Amount/i) as HTMLInputElement).value).toBe("");
+    expect(amountInput.value).toBe(""); // Clear setelah submit
 });
 
 it("shows error alert when submission fails", async () => {
@@ -211,8 +226,8 @@ it("shows error alert when submission fails", async () => {
     window.alert = jest.fn();
 
     render(<AddBalanceCard user={fakeUser} />);
-
     const user = userEvent.setup();
+
     await user.type(screen.getByPlaceholderText(/Amount/i), "100");
     await user.click(screen.getByRole("button", { name: /Save/i }));
 
@@ -227,36 +242,19 @@ it("memproses input lengkap dan memanggil callback sesuai", async () => {
     render(<AddBalanceCard user={fakeUser} onTransaction={onTransaction} />);
     const user = userEvent.setup();
 
-    // --- Input amount & desc
     await user.type(screen.getByPlaceholderText(/Amount/i), "200");
     await user.type(screen.getByPlaceholderText(/Write here/i), "Beli buku");
 
-    // Type guard untuk memastikan element memang HTMLSelectElement
-    function assertIsSelectElement(el: HTMLElement): asserts el is HTMLSelectElement {
-        if (!(el instanceof HTMLSelectElement)) {
-            throw new Error("Element is not a select element");
-        }
-    }
-
-    // Dalam test case:
     const currencySelect = screen.getByTestId("currency-select");
-    assertIsSelectElement(currencySelect); // cek tipe runtime
-
+    assertIsSelectElement(currencySelect);
     await user.selectOptions(currencySelect, "USD");
     expect(currencySelect.value).toBe("USD");
 
-    // --- Pilih type expense
     const allComboboxes = screen.getAllByRole("combobox");
-    const typeSelect = allComboboxes[1] as HTMLSelectElement;
+    const typeSelect = allComboboxes[1];
+    assertIsSelectElement(typeSelect);
     await user.selectOptions(typeSelect, "expense");
     expect(typeSelect.value).toBe("expense");
-
-    // --- Set tanggal (PAKAI fireEvent.change!)
-    function assertIsInputElement(el: HTMLElement): asserts el is HTMLInputElement {
-        if (!(el instanceof HTMLInputElement)) {
-            throw new Error("Element is not an input element");
-        }
-    }
 
     const dateInput = await screen.findByTestId("calendar-input");
     assertIsInputElement(dateInput);
@@ -264,17 +262,15 @@ it("memproses input lengkap dan memanggil callback sesuai", async () => {
     fireEvent.change(dateInput, { target: { value: "2025-06-15" } });
     expect(dateInput.value).toBe("2025-06-15");
 
-    // --- Submit
     await user.click(screen.getByRole("button", { name: /Save/i }));
 
-    // --- Pastikan callback dipanggil
     await waitFor(() => expect(onTransaction).toHaveBeenCalled());
     const tx = onTransaction.mock.calls[0][0];
     expect(tx).toMatchObject({
         desc: "Beli buku",
         amount: 200,
         type: "expense",
-        currency: "USD"
+        currency: "USD",
     });
 });
 
@@ -286,12 +282,8 @@ it("should call onTransaction when submit minimal form", async () => {
     render(<AddBalanceCard user={fakeUser} onTransaction={onTransaction} />);
     const user = userEvent.setup();
 
-    // WAJIB isi Amount, karena required
     await user.type(screen.getByPlaceholderText(/Amount/i), "1");
-    // Boleh lewati field lain, karena Type/currency default
-
     await user.click(screen.getByRole("button", { name: /Save/i }));
 
     await waitFor(() => expect(onTransaction).toHaveBeenCalled());
 });
-
