@@ -84,7 +84,7 @@ jobs:
         run: mv babel.config.js.bak babel.config.js
 
       - name: Run Unit Tests (for coverage report)
-        run: npm run test -- --coverage
+        run: npm run test
 
       - name: List coverage directory
         run: ls -l coverage
