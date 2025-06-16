@@ -15,11 +15,12 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
   coverageReporters: ['text', 'lcov', 'html'],
   collectCoverageFrom: [
-    'components/**/*.{js,jsx,ts,tsx}',
-    'app/**/*.{js,jsx,ts,tsx}',
-    '!**/node_modules/**',
-    '!**/.next/**',
-  ],
+  'components/**/*.{js,jsx,ts,tsx}',
+  'app/**/*.{js,jsx,ts,tsx}',
+  'lib/**/*.{js,jsx,ts,tsx}',    // tambahkan ini jika punya folder lib
+  '!**/node_modules/**',
+  '!**/.next/**',
+],
   coverageDirectory: 'coverage',
 };
 
