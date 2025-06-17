@@ -23,6 +23,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "components/__tests__/CalculatorCard.test.tsx"  ],
   "exclude": ["node_modules"]
 }
