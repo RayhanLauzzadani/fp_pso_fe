@@ -33,9 +33,6 @@ jobs:
       - name: List coverage directory
         run: ls -l coverage
 
-      - name: Show lcov.info head
-        run: head -n 20 coverage/lcov.info
-
       - name: Disable Babel for Next.js build
         run: mv babel.config.js babel.config.js.bak
 
