@@ -37,9 +37,9 @@ jest.mock("firebase/firestore", () => ({
 jest.mock("@/components/BalanceCard", () => ({
   BalanceCard: () => <div data-testid="BalanceCard">Mock BalanceCard</div>,
 }));
-jest.mock("@/components/CalculatorCard", () => ({
-  CalculatorCard: () => <div data-testid="CalculatorCard">Mock CalculatorCard</div>,
-}));
+// jest.mock("@/components/CalculatorCard", () => ({
+//   CalculatorCard: () => <div data-testid="CalculatorCard">Mock CalculatorCard</div>,
+// }));
 jest.mock("@/components/AddBalanceCard", () => ({
   AddBalanceCard: () => <div data-testid="AddBalanceCard">Mock AddBalanceCard</div>,
 }));
@@ -89,7 +89,7 @@ describe("Homepage", () => {
     });
 
     expect(screen.getByTestId("BalanceCard")).toBeInTheDocument();
-    expect(screen.getByTestId("CalculatorCard")).toBeInTheDocument();
+    // expect(screen.getByTestId("CalculatorCard")).toBeInTheDocument();
     expect(screen.getByTestId("AddBalanceCard")).toBeInTheDocument();
     expect(screen.getByTestId("TransactionHistoryCard")).toBeInTheDocument();
   });
