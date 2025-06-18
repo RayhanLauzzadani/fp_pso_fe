@@ -16,7 +16,7 @@ const config: Config.InitialOptions = {
   coverageReporters: ['text', 'lcov', 'html'],
   collectCoverageFrom: [
     'components/**/*.{js,jsx,ts,tsx}',
-    '!components/**/LandingPage.tsx',
+    // '!components/**/LandingPage.tsx',
     '!components/**/CalculatorCard.tsx',
     '!components/ui/**',
     '!**/node_modules/**',
