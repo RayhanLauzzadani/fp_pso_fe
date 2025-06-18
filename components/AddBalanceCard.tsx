@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -61,7 +61,7 @@ export function AddBalanceCard({ user, onTransaction }: AddBalanceCardProps) {
   const [type, setType] = React.useState("income");
   const [desc, setDesc] = React.useState("");
   const [currency, setCurrency] = React.useState(currencies[0]);
-  const [loading, setLoading] = React.useState(false);
+  // const [loading, setLoading] = React.useState(false);
 
   // Ganti ke mata uang utama (USD)
   const MAIN_CURRENCY = "USD";
@@ -80,7 +80,7 @@ export function AddBalanceCard({ user, onTransaction }: AddBalanceCardProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return alert("User not found!");
-    setLoading(true);
+    // setLoading(true);
 
     try {
       // Ambil data user sebelumnya
@@ -153,7 +153,7 @@ export function AddBalanceCard({ user, onTransaction }: AddBalanceCardProps) {
       }
       alert(msg);
     }
-    setLoading(false);
+    // setLoading(false);
   };
 
   return (
@@ -255,13 +255,13 @@ export function AddBalanceCard({ user, onTransaction }: AddBalanceCardProps) {
             />
           </div>
           {/* Save Button */}
-          <Button
+          {/* <Button
             className="w-full mt-4 bg-[#295B82] rounded-full text-white text-lg py-3 font-semibold hover:bg-[#295B82]/90 shadow-lg"
             type="submit"
             disabled={loading}
           >
             {loading ? "Saving..." : "Save"}
-          </Button>
+          </Button> */}
         </form>
       </CardContent>
     </Card>
