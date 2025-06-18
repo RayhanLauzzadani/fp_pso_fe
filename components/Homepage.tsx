@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AddBalanceCard } from "@/components/AddBalanceCard";
-import { CalculatorCard } from "@/components/CalculatorCard";
+// import { CalculatorCard } from "@/components/CalculatorCard";
 import { BalanceCard } from "@/components/BalanceCard";
 import { TransactionHistoryCard } from "@/components/TransactionHistoryCard";
 import { auth } from "@/lib/firebaseConfig";
@@ -102,7 +102,7 @@ export default function Homepage() {
               <BalanceCard user={user} />
             </div>
             <div className="flex-[1.6] flex">
-              <CalculatorCard />
+              {/* <CalculatorCard /> */}
             </div>
           </div>
           <div className="flex gap-8">

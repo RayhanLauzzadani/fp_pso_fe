@@ -17,6 +17,7 @@ const config: Config.InitialOptions = {
   collectCoverageFrom: [
     'components/**/*.{js,jsx,ts,tsx}',
     '!components/**/LandingPage.tsx',
+    '!components/**/CalculatorCard.tsx',
     '!components/ui/**',
     '!**/node_modules/**',
     '!**/.next/**',
